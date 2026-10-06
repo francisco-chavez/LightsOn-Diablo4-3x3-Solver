@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="SolutionFinderLib/SolutionFinderLib.csproj" />
+  <Project Path="SolverApp/SolverApp.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>
