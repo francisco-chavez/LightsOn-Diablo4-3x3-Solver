@@ -1,1 +1,3 @@
-# LightsOn-Diablo4-3x3-Solver
+# Lights On Diablo 4 3x3 Solver
+
+I've been playing Diablo 4 and came across a puzzle where I think that the solution is lighting all 9 braziers. But, each time I light (or put out) a brazier, the braziers that are directly touching it will have their lit state inverted. I could keep playing around with it until I get enough of a feel for it that I can easily solve it. But, for all I know, I could be wrong about the solve condition. After thinking about it, I feel like my time would be better spent writing an app where I can input a starting and target state, and then use a breadth first search to map out order in which to get from A to B.
