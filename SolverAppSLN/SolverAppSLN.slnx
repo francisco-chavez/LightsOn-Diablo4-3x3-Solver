@@ -7,4 +7,5 @@
   <Project Path="SolverApp/SolverApp.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="TestSolutionFinderLib/TestSolutionFinderLib.csproj" Id="d905b26e-3d36-473b-bb66-ce75c0a72b9a" />
 </Solution>
