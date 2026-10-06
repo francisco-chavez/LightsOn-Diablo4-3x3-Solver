@@ -1,13 +1,19 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+
 
 namespace SolutionFinderLib;
 
 [StructLayout(LayoutKind.Explicit)]
 public unsafe struct GridState
 {
+
+	#region Attributes && Properties
 
 	public static int GRID_CELL_COUNT = 9;
 
@@ -21,6 +27,10 @@ public unsafe struct GridState
 		set { _buffer[index] = value; }
 	}
 
+	#endregion
+
+
+	#region Constructors
 
 	public GridState()
 	{
@@ -48,5 +58,47 @@ public unsafe struct GridState
 		for (int i = 0; i < GRID_CELL_COUNT; i++)
 			_buffer[i] = cellStates[i];
 	}
+
+	#endregion
+
+
+	#region Hashing && Equality
+
+	public override int GetHashCode()
+	{
+		int value = 0;
+
+		for (int i = 0; i < GRID_CELL_COUNT; i++)
+		{
+			value += _buffer[i] ? 1 : 0;
+			value = value << 1;
+		}
+		return value;
+	}
+
+	public override bool Equals([NotNullWhen(true)] object obj)
+	{
+		var other = (GridState) obj;
+		return this == other;
+	}
+
+	public static bool operator==(GridState lhs, GridState rhs)
+	{
+		var same = true;
+		int i = 0;
+		do
+		{
+			same = lhs._buffer[i] == rhs._buffer[i];
+			i++;
+		} while (i < GRID_CELL_COUNT && same);
+		return same;
+	}
+
+	public static bool operator!=(GridState lhs, GridState rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	#endregion
 
 }
