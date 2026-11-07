@@ -22,28 +22,30 @@ public class TestGridState
 		{
 			// I could write an array generator method that creates every true/false grid state
 			// combination, but that might be overkill.
-			yield return new int[] { 5, 2, 0 };
-			yield return new int[] { 1, 3, 5 };
 			yield return new int[] { 0, 2, 4, 6, 8 };
 			yield return new int[] { 1, 3, 5, 7 };
-			yield return new int[] { 0 };
-			yield return new int[] { 1 };
-			yield return new int[] { 2 };
-			yield return new int[] { 3 };
-			yield return new int[] { 4 };
-			yield return new int[] { 5 };
-			yield return new int[] { 6 };
-			yield return new int[] { 7 };
-			yield return new int[] { 8 };
-			yield return new int[] { 0, 1 };
-			yield return new int[] { 0, 2 };
-			yield return new int[] { 0, 3 };
-			yield return new int[] { 0, 4 };
-			yield return new int[] { 0, 5 };
-			yield return new int[] { 3, 4 };
-			yield return new int[] { 3, 5 };
-			yield return new int[] { 3, 6 };
-			yield return new int[] { 3, 7 };
+
+			for (int i = 0; i < GridState.GRID_CELL_COUNT; i++)
+			{
+				yield return new int[] { i };
+
+				for (int j = 0; j < GridState.GRID_CELL_COUNT; j++)
+				{
+					if (j == i)
+						continue;
+
+					yield return new int[] { i, j };
+
+					for (int k = 0; k < GridState.GRID_CELL_COUNT; k++)
+					{
+						if (k == j || k == i)
+							continue;
+
+						yield return new int[] { i, j, k };
+					}
+				}
+			}
+
 		}
 	}
 
