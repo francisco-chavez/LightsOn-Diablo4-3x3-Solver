@@ -19,6 +19,7 @@ public unsafe struct GridState
 
 
 	[FieldOffset(0)] private fixed bool _buffer[9];
+	[FieldOffset(0)] private UInt16 _numericalValue;
 
 
 	public bool this[int index]
@@ -34,8 +35,7 @@ public unsafe struct GridState
 
 	public GridState()
 	{
-		for (int i = 0; i < GRID_CELL_COUNT; i++)
-			_buffer[i] = false;
+		_numericalValue = 0;
 	}
 
 	public GridState(bool cell0 = false, bool cell1 = false, bool cell2 = false, bool cell3 = false,
@@ -59,6 +59,11 @@ public unsafe struct GridState
 			_buffer[i] = cellStates[i];
 	}
 
+	private GridState(UInt16 numValue)
+	{
+		_numericalValue = numValue;
+	}
+
 	#endregion
 
 
@@ -66,37 +71,44 @@ public unsafe struct GridState
 
 	public override int GetHashCode()
 	{
-		int value = 0;
-
-		for (int i = 0; i < GRID_CELL_COUNT; i++)
-		{
-			value += _buffer[i] ? 1 : 0;
-			value = value << 1;
-		}
-		return value;
+		return _numericalValue;
 	}
 
 	public override bool Equals([NotNullWhen(true)] object obj)
 	{
-		var other = (GridState) obj;
-		return this == other;
+		var other = obj as GridState?;
+		return other == null
+			? false
+			: (this == other.Value);
 	}
 
 	public static bool operator==(GridState lhs, GridState rhs)
 	{
-		var same = true;
-		int i = 0;
-		do
-		{
-			same = lhs._buffer[i] == rhs._buffer[i];
-			i++;
-		} while (i < GRID_CELL_COUNT && same);
-		return same;
+		return lhs._numericalValue == rhs._numericalValue;
 	}
 
 	public static bool operator!=(GridState lhs, GridState rhs)
 	{
-		return !(lhs == rhs);
+		return lhs._numericalValue != rhs._numericalValue;
+	}
+
+	#endregion
+
+
+	#region Bitwise Operations
+
+	public static GridState operator&(GridState lhs, GridState rhs)
+	{
+		// C# doesn't have a builtin bitwise operators for shorts and ushorts. So, they get cast to
+		// ints of all things. This means we need to cast the result back into a ushort.
+		ushort newState = (ushort) (lhs._numericalValue & rhs._numericalValue);
+		return new GridState(newState);
+	}
+
+	public static GridState operator|(GridState lhs, GridState rhs)
+	{
+		ushort newState = (ushort) (lhs._numericalValue | rhs._numericalValue);
+		return new GridState(newState);
 	}
 
 	#endregion
