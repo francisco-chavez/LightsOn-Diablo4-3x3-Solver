@@ -114,4 +114,58 @@ public class TestGridState
 			Assert.AreEqual(validationArray[i], gridState[i]);
 	}
 
+	[TestMethod]
+	public void HashValueTest01()
+	{
+		GridState gridState = new GridState();
+		Assert.AreEqual(0, gridState.GetHashCode());
+	}
+
+	[TestMethod]
+	public void HashValueTest02()
+	{
+		var startingBools = TestGridState.FalseBoolArray();
+		startingBools[0] = true;
+
+		GridState gridState = new GridState(startingBools);
+
+		var expectedValue = 1;
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
+	[TestMethod]
+	public void HashValueTest03()
+	{
+		var startingBools = TestGridState.FalseBoolArray();
+		startingBools[1] = true;
+
+		GridState gridState = new GridState(startingBools);
+
+		var expectedValue = 2;
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
+	[TestMethod]
+	public void HashValueTest04()
+	{
+		var startingBools = TestGridState.FalseBoolArray();
+		startingBools[2] = true;
+
+		GridState gridState = new GridState(startingBools);
+
+		var expectedValue = 4;
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
+	private static bool[] FalseBoolArray()
+	{
+		var array = new bool[GridState.GRID_CELL_COUNT];
+		for (int i = 0; i < GridState.GRID_CELL_COUNT; i++)
+			array[i] = false;
+		return array;
+	}
+
 }
