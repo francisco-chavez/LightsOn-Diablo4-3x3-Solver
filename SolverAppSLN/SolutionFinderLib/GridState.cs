@@ -128,7 +128,12 @@ public unsafe struct GridState
 		return new GridState(newState);
 	}
 
-	#endregion
+	public static GridState operator~(GridState gridState)
+	{
+		ushort newState = (ushort) (~gridState._bitBuffer & GridState.ALL_TRUE);
+		return new GridState(newState);
+	}
+
 
 	private static int BitMask(int index)
 	{
@@ -156,5 +161,7 @@ public unsafe struct GridState
 				throw new IndexOutOfRangeException("Cell index musht range [0, 8].");
 		}
 	}
+
+	#endregion
 
 }
