@@ -17,7 +17,7 @@ public unsafe struct GridState
 	#region Attributes && Properties
 
 	public const int GRID_CELL_COUNT = 9;
-	private const int ALL_TRUE = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 256;
+	private const int ALL_TRUE = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 + 256;
 
 
 	[FieldOffset(0)] private UInt16 _bitBuffer;
