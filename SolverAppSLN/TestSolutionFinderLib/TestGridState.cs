@@ -160,6 +160,35 @@ public class TestGridState
 		Assert.AreEqual(expectedValue, actualValue);
 	}
 
+	[TestMethod]
+	public void HashValueTest05()
+	{
+		var startingBools = TestGridState.FalseBoolArray();
+		startingBools[2] = true;
+		startingBools[3] = true;
+
+		GridState gridState = new GridState(startingBools);
+
+		var expectedValue = 4 + 8;
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
+	[TestMethod]
+	public void HashValueTest06()
+	{
+		var startingBools = TestGridState.FalseBoolArray();
+		startingBools[1] = true;
+		startingBools[4] = true;
+		startingBools[7] = true;
+
+		GridState gridState = new GridState(startingBools);
+
+		var expectedValue = 2 + 16 + 128;
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
 	private static bool[] FalseBoolArray()
 	{
 		var array = new bool[GridState.GRID_CELL_COUNT];
