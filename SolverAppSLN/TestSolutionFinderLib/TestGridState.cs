@@ -189,6 +189,38 @@ public class TestGridState
 		Assert.AreEqual(expectedValue, actualValue);
 	}
 
+	[TestMethod]
+	public void HashValueTest07()
+	{
+		var startingBools = new bool[GridState.GRID_CELL_COUNT];
+		var expectedValue = 1;
+		for (int i = 0; i < GridState.GRID_CELL_COUNT; i++)
+		{
+			startingBools[i] = true;
+			expectedValue *= 2;
+		}
+		expectedValue -= 1;
+		GridState gridState = new GridState(startingBools);
+
+		var actualValue = gridState.GetHashCode();
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
+	[TestMethod]
+	public void HashValueTest08()
+	{
+		var startingBools = new bool[GridState.GRID_CELL_COUNT];
+		for (int i = 0; i < GridState.GRID_CELL_COUNT; i++)
+			startingBools[i] = true;
+
+		GridState gridState = new GridState(startingBools);
+		gridState = ~gridState;
+
+		var actualValue = gridState.GetHashCode();
+		var expectedValue = 0;
+		Assert.AreEqual(expectedValue, actualValue);
+	}
+
 	private static bool[] FalseBoolArray()
 	{
 		var array = new bool[GridState.GRID_CELL_COUNT];
