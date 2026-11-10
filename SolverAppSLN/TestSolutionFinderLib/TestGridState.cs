@@ -229,4 +229,15 @@ public class TestGridState
 		return array;
 	}
 
+	[TestMethod]
+	public void TestInvertCell0()
+	{
+		GridState startingState = new GridState();
+		var expectedState = new GridState(cell0: true, cell1: true, cell3: true);
+
+		var resultingState = GridState.InvertCells(startingState, 0);
+
+		Assert.AreEqual(expectedState, resultingState);
+	}
+
 }

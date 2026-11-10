@@ -35,6 +35,7 @@ public unsafe struct GridState
 	private const int	ALL_FALSE		= 0;
 	#endregion
 
+
 	#region Attributes && Properties
 
 	[FieldOffset(0)] private UInt16 _bitBuffer;
@@ -180,5 +181,66 @@ public unsafe struct GridState
 	}
 
 	#endregion
+
+	public static GridState InvertCells(GridState originState, int centerCellIndex)
+	{
+		/********************************************************************************************
+		 * We create a mask showing which bits will be inverted.
+		 * 
+		 * The rule is that we invert the state of the cell along with the cells that touch it 
+		 * (diagonal doesn't count as a touch).
+		 * 
+		 * The diagram below is to help select the correct overlapping bitmasks for each selected 
+		 * cell index.
+		 * 
+		 * 0 | 1 | 2
+		 * - + - + -
+		 * 3 | 4 | 5
+		 * - + - + -
+		 * 6 | 7 | 8
+		 * 
+		 ********************************************************************************************/
+		int mask = 0;
+
+		switch (centerCellIndex)
+		{
+			case 0:
+				mask = CELL_BIT_MASK_0 + CELL_BIT_MASK_1 + CELL_BIT_MASK_3;
+				break;
+			case 1:
+				mask = CELL_BIT_MASK_0 + CELL_BIT_MASK_1 + CELL_BIT_MASK_2 + CELL_BIT_MASK_4;
+				break;
+			case 2:
+				mask = CELL_BIT_MASK_1 + CELL_BIT_MASK_2 + CELL_BIT_MASK_5;
+				break;
+			case 3:
+				mask = CELL_BIT_MASK_0 + CELL_BIT_MASK_3 + CELL_BIT_MASK_4 + CELL_BIT_MASK_6;
+				break;
+			case 4:
+				mask = CELL_BIT_MASK_1 + CELL_BIT_MASK_3 + CELL_BIT_MASK_4 + CELL_BIT_MASK_5 + CELL_BIT_MASK_7;
+				break;
+			case 5:
+				mask = CELL_BIT_MASK_2 + CELL_BIT_MASK_4 + CELL_BIT_MASK_5 + CELL_BIT_MASK_8;
+				break;
+			case 6:
+				mask = CELL_BIT_MASK_3 + CELL_BIT_MASK_6 + CELL_BIT_MASK_7;
+				break;
+			case 7:
+				mask = CELL_BIT_MASK_4 + CELL_BIT_MASK_6 + CELL_BIT_MASK_7 + CELL_BIT_MASK_8;
+				break;
+			case 8:
+				mask = CELL_BIT_MASK_5 + CELL_BIT_MASK_7 + CELL_BIT_MASK_8;
+				break;
+
+			default:
+				throw new IndexOutOfRangeException();
+		}
+
+		int rawValue = originState._bitBuffer;		// rawValue is easier to type out than originalState._bitBuffer;
+		var t = (~mask | ~rawValue) & mask;			// We invert the bits within the mask and place them in 't'.
+		var newValue = (rawValue & ~mask) | t;		// We take the starting value, and overwrite the mask bits with what's in 't'.
+
+		return new GridState((ushort) newValue);
+	}
 
 }
