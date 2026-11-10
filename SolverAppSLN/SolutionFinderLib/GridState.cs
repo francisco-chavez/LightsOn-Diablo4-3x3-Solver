@@ -14,11 +14,28 @@ namespace SolutionFinderLib;
 public unsafe struct GridState
 {
 
+	#region Constants
+
+	public const int	GRID_CELL_COUNT = 9;
+
+	private const int	CELL_BIT_MASK_0 =   1;
+	private const int	CELL_BIT_MASK_1 =   2;
+	private const int	CELL_BIT_MASK_2 =   4;
+	private const int	CELL_BIT_MASK_3 =   8;
+	private const int	CELL_BIT_MASK_4 =  16;
+	private const int	CELL_BIT_MASK_5 =  32;
+	private const int	CELL_BIT_MASK_6 =  64;
+	private const int	CELL_BIT_MASK_7 = 128;
+	private const int	CELL_BIT_MASK_8 = 256;
+
+	private const int	ALL_TRUE		= CELL_BIT_MASK_0 + CELL_BIT_MASK_1 + CELL_BIT_MASK_2 
+										+ CELL_BIT_MASK_3 + CELL_BIT_MASK_4 + CELL_BIT_MASK_5 
+										+ CELL_BIT_MASK_6 + CELL_BIT_MASK_7 + CELL_BIT_MASK_8;
+
+	private const int	ALL_FALSE		= 0;
+	#endregion
+
 	#region Attributes && Properties
-
-	public const int GRID_CELL_COUNT = 9;
-	private const int ALL_TRUE = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 + 256;
-
 
 	[FieldOffset(0)] private UInt16 _bitBuffer;
 
@@ -55,15 +72,15 @@ public unsafe struct GridState
 		bool cell4 = false, bool cell5 = false, bool cell6 = false, bool cell7 = false,
 		bool cell8 = false)
 	{
-		_bitBuffer = (ushort) (cell0 ? 1 : 0);
-		_bitBuffer += (ushort) (cell1 ?   2 : 0);
-		_bitBuffer += (ushort) (cell2 ?   4 : 0);
-		_bitBuffer += (ushort) (cell3 ?   8 : 0);
-		_bitBuffer += (ushort) (cell4 ?  16 : 0);
-		_bitBuffer += (ushort) (cell5 ?  32 : 0);
-		_bitBuffer += (ushort) (cell6 ?  64 : 0);
-		_bitBuffer += (ushort) (cell7 ? 128 : 0);
-		_bitBuffer += (ushort) (cell8 ? 256 : 0);
+		_bitBuffer = (ushort)  (cell0 ? CELL_BIT_MASK_0 : 0);
+		_bitBuffer += (ushort) (cell1 ? CELL_BIT_MASK_1 : 0);
+		_bitBuffer += (ushort) (cell2 ? CELL_BIT_MASK_2 : 0);
+		_bitBuffer += (ushort) (cell3 ? CELL_BIT_MASK_3 : 0);
+		_bitBuffer += (ushort) (cell4 ? CELL_BIT_MASK_4 : 0);
+		_bitBuffer += (ushort) (cell5 ? CELL_BIT_MASK_5 : 0);
+		_bitBuffer += (ushort) (cell6 ? CELL_BIT_MASK_6 : 0);
+		_bitBuffer += (ushort) (cell7 ? CELL_BIT_MASK_7 : 0);
+		_bitBuffer += (ushort) (cell8 ? CELL_BIT_MASK_8 : 0);
 	}
 
 	public GridState(bool[] cellStates)
@@ -140,25 +157,25 @@ public unsafe struct GridState
 		switch (index)
 		{
 			case 0:
-				return 1;
-			case 1:
-				return 2;
-			case 2:
-				return 4;
-			case 3:
-				return 8;
-			case 4:
-				return 16;
-			case 5:
-				return 32;
-			case 6:
-				return 64;
+				return GridState.CELL_BIT_MASK_0;
+			case 1:	    
+				return GridState.CELL_BIT_MASK_1;
+			case 2:	    
+				return GridState.CELL_BIT_MASK_2;
+			case 3:	    
+				return GridState.CELL_BIT_MASK_3;
+			case 4:	    
+				return GridState.CELL_BIT_MASK_4;
+			case 5:	    
+				return GridState.CELL_BIT_MASK_5;
+			case 6:	    
+				return GridState.CELL_BIT_MASK_6;
 			case 7:
-				return 128;
+				return GridState.CELL_BIT_MASK_7;
 			case 8:
-				return 256;
+				return GridState.CELL_BIT_MASK_8;
 			default:
-				throw new IndexOutOfRangeException("Cell index musht range [0, 8].");
+				throw new IndexOutOfRangeException("Cell index must range within [0, 8].");
 		}
 	}
 
