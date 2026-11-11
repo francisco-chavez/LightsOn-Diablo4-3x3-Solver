@@ -23,11 +23,11 @@ public unsafe struct GridState
 	private const int	CELL_BIT_MASK_7 = 128;
 	private const int	CELL_BIT_MASK_8 = 256;
 
+	private const int   ALL_FALSE		= 0;
 	private const int	ALL_TRUE		= CELL_BIT_MASK_0 + CELL_BIT_MASK_1 + CELL_BIT_MASK_2 
 										+ CELL_BIT_MASK_3 + CELL_BIT_MASK_4 + CELL_BIT_MASK_5 
 										+ CELL_BIT_MASK_6 + CELL_BIT_MASK_7 + CELL_BIT_MASK_8;
 
-	private const int	ALL_FALSE		= 0;
 	#endregion
 
 
