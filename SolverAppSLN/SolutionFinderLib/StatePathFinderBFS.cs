@@ -27,6 +27,7 @@ public class StatePathFinderBFS
 		var queue = new LinkedList<GridState>();
 		var childToParentPath = new Dictionary<GridState, int>();
 
+		childToParentPath.Add(startingState, -1);
 		queue.AddLast(startingState);
 
 		while (queue.Count > 0)
@@ -40,7 +41,7 @@ public class StatePathFinderBFS
 				// Build path from target state to starting state.
 				var path = new List<int>();
 				var t = current;
-				while (childToParentPath.ContainsKey(t))
+				while (childToParentPath.ContainsKey(t) && childToParentPath[t] != -1)
 				{
 					var i = childToParentPath[t];
 					path.Add(i);
