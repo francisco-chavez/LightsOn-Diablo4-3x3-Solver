@@ -54,6 +54,11 @@ public unsafe struct GridState
 		}
 	}
 
+	public static GridState AllOnes
+	{
+		get { return new GridState(GridState.ALL_TRUE); }
+	}
+
 	#endregion
 
 

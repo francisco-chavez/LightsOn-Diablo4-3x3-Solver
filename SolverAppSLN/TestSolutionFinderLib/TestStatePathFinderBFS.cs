@@ -143,4 +143,20 @@ public class TestStatePathFinderBFS
 
 	#endregion
 
+
+	#region Longer Paths
+
+	[TestMethod]
+	public void TestOriginalProblem()
+	{
+		var startingState = new GridState();
+		var targetState = GridState.AllOnes;
+
+		var path = FinderInstance.FindPath(startingState, targetState);
+		var expectedPathValues = new[] { 0, 2, 4, 6, 8 };
+		CollectionAssert.AreEquivalent(expectedPathValues, path);
+	}
+
+	#endregion
+
 }
